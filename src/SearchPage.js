@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import MovieList from './MovieList';
 import { searchMovies } from './services/fetch-utils';
-import { logout } from './services/supabase-utils';
+import { getWatchList, logout } from './services/supabase-utils';
 
 export default function SearchPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -9,15 +10,17 @@ export default function SearchPage() {
 
   async function handleSubmitSearch(e) {
     e.preventDefault();
-    const results = searchMovies(searchTerm);
-    setSearchResults(results);    
+    const results = await searchMovies(searchTerm);
+    console.log(searchTerm);
+    setSearchResults(results);
+    console.log(results);
   }
 
   function isOnWatchList(api_id) {
-    const match = watchlist.find(item => Number(item.api_id) === Number(api_id));
+    const match = watchList.find(item => Number(item.api_id) === Number(api_id));
 
     return Boolean(match);
-}
+  }
 
   async function refreshWatchList() {
     const myWatchList = await getWatchList();
@@ -31,10 +34,12 @@ export default function SearchPage() {
   return (
     <div>
       <button onClick={logout}>Logout</button>
-      <input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+      <form onSubmit={handleSubmitSearch} className='search'>
+        <input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+        <button>Submit</button>
+      </form>
       <div className='movieSearch'>
         <MovieList movies={searchResults} isOnWatchList={isOnWatchList} refreshWatchList={refreshWatchList} />
-        {/* if its not watched, when you click it, set it to watched. also refetch */}
       </div>
     </div>
   );

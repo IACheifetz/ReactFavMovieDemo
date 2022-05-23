@@ -17,8 +17,6 @@ export default function AuthPage({ setCurrentUser }) {
 
   
   async function handleSignUp(e) {
-
-    console.log(signUpEmail, signUpPassword);
     e.preventDefault();
 
     const user = await signupUser(signUpEmail, signUpPassword);
@@ -27,8 +25,6 @@ export default function AuthPage({ setCurrentUser }) {
   }
 
   async function handleSignIn(e) {
-    console.log(signInEmail, signInPassword);
-
     e.preventDefault();
 
     const user = await signInUser(signInEmail, signInPassword);
