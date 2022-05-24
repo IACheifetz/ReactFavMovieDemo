@@ -12,7 +12,7 @@ export default function MovieItem({ movie, isOnWatchList, refreshWatchList }) {
   }
 
   return (
-    <div
+    <div className="movie-card"
       // really does need to display differently if its on the watch list
       onClick={handleClick}
     >
