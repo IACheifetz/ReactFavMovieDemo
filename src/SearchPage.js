@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MovieList from './MovieList';
 import { searchMovies } from './services/fetch-utils';
-import { getWatchList, logout } from './services/supabase-utils';
+import { getWatchList } from './services/supabase-utils';
 
 export default function SearchPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -10,8 +10,11 @@ export default function SearchPage() {
 
   async function handleSubmitSearch(e) {
     e.preventDefault();
-    const results = await searchMovies(searchTerm);
-    setSearchResults(results);
+    if (searchTerm) {
+      //makes it not break if the search term is empty (aka the input form is blank)
+      const results = await searchMovies(searchTerm);
+      setSearchResults(results);
+    }
   }
 
   function isOnWatchList(api_id, watchList) {
@@ -31,7 +34,6 @@ export default function SearchPage() {
 
   return (
     <div>
-      <button onClick={logout}>Logout</button>
       <form onSubmit={handleSubmitSearch} className="search">
         <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
         <button>Submit</button>

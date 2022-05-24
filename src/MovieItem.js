@@ -7,26 +7,28 @@ export default function MovieItem({ watchList, movie, isOnWatchList, refreshWatc
       await removeFromWatchList(movie.id);
     } else {
       await add2WatchList(movie.id, movie.title, movie.poster_path, movie.overview);
-      console.log(movie.id);
-      console.log('test1');
     }
     await refreshWatchList();
-    console.log(isOnWatchList(movie.id, watchList));
   }
 
   return (
-    <div
-      className="movie-card"
-      // really does need to display differently if its on the watch list
-    >
-      <p> {movie.title} </p>
-      <p> {movie.overview}</p>
-      <img src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
+    <div className='movie'>
+      {/* displays as either a watchlist card or a display card depending on whether the item is on the watchlist */}
       {isOnWatchList(movie.id, watchList) ? (
-        <button onClick={handleClick}>Remove from Watchlist</button>
+        <div className='watchlist-card'>
+          <p> {movie.title} </p>
+          <p> {movie.overview}</p>
+          <img src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
+          <button onClick={handleClick}>Remove from Watchlist</button>
+        </div>
       ) : (
-        <button onClick={handleClick}>Add to Watchlist</button>
-      )}
+        <div className='movie-card'>
+          <p> {movie.title} </p>
+          <p> {movie.overview}</p>
+          <img src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} />
+          <button onClick={handleClick}>Add to Watchlist</button>
+        </div>
+      )}    
     </div>
   );
 }

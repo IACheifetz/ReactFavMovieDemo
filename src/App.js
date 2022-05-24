@@ -3,12 +3,14 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
+  Link
 } from 'react-router-dom';
 import WatchList from './WatchList';
 import SearchPage from './SearchPage';
 import AuthPage from './AuthPage';
 import React, { useState } from 'react';
+import { logout } from './services/supabase-utils';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(localStorage.getItem('supabase.auth.token'));
@@ -16,11 +18,22 @@ function App() {
   return (
     
     <Router>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Search</Link>
+          </li>
+          <li>
+            <Link to="/WatchList">My Watch List</Link>
+          </li>
+          <button onClick={logout}>Logout</button>
+          {/* make the links to the search and watchlist page and the logout button show on every page */}
+        </ul>
+      </nav>
       <div className="App">
         <Switch>
           <Route exact path="/">
             {
-              // this protecting of routes and holding on to the user data in state --- that's new!!
               currentUser 
                 ? <Redirect to="/search"/>
                 : <AuthPage setCurrentUser={setCurrentUser} />
@@ -28,7 +41,6 @@ function App() {
           </Route>
           <Route path="/search">
             {
-              // this protecting of routes and holding on to the user data in state --- that's new!!
               !currentUser 
                 ? <Redirect to="/"/>
                 : <SearchPage />
@@ -37,7 +49,6 @@ function App() {
           </Route>
           <Route path="/">
             {
-              // this protecting of routes and holding on to the user data in state --- that's new!!
               !currentUser 
                 ? <Redirect to="/"/>
                 : <WatchList />
