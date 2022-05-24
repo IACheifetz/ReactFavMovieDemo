@@ -11,13 +11,11 @@ export default function SearchPage() {
   async function handleSubmitSearch(e) {
     e.preventDefault();
     const results = await searchMovies(searchTerm);
-    console.log(searchTerm);
     setSearchResults(results);
-    console.log(results);
   }
 
-  function isOnWatchList(api_id) {
-    const match = watchList.find(item => Number(item.api_id) === Number(api_id));
+  function isOnWatchList(api_id, watchList) {
+    const match = watchList.find((item) => Number(item.api_id) === Number(api_id));
 
     return Boolean(match);
   }
@@ -34,12 +32,17 @@ export default function SearchPage() {
   return (
     <div>
       <button onClick={logout}>Logout</button>
-      <form onSubmit={handleSubmitSearch} className='search'>
-        <input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+      <form onSubmit={handleSubmitSearch} className="search">
+        <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
         <button>Submit</button>
       </form>
-      <div className='movieSearch'>
-        <MovieList movies={searchResults} isOnWatchList={isOnWatchList} refreshWatchList={refreshWatchList} />
+      <div className="movieSearch">
+        <MovieList
+          movies={searchResults}
+          watchList={watchList}
+          isOnWatchList={isOnWatchList}
+          refreshWatchList={refreshWatchList}
+        />
       </div>
     </div>
   );

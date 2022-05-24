@@ -23,28 +23,22 @@ export async function logout() {
 }
 
 export async function getWatchList() {
-  const { data } = await client 
-    .from('FavMovies')  
-    .select('*');
+  const { data } = await client.from('FavMovies').select('*');
 
   return data;
 }
 
-export async function add2WatchList({ id, ...rest }) {
-  const { data } = await client 
+export async function add2WatchList(id, title, poster_path, overview) {
+  const { data } = await client
     .from('FavMovies')
-    .insert({ ...rest, api_id: id })
+    .insert([{ api_id: id, title, poster_path, overview }])
     .single();
 
   return data;
 }
 
 export async function removeFromWatchList(api_id) {
-  const { data } = await client 
-    .from('FavMovies')  
-    .delete()
-    .match({ api_id })
-    .single();
+  const { data } = await client.from('FavMovies').delete().match({ api_id }).single();
 
   return data;
 }
