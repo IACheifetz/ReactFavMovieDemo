@@ -4,9 +4,9 @@ import { add2WatchList, removeFromWatchList } from './services/supabase-utils';
 export default function MovieItem({ watchList, movie, isOnWatchList, refreshWatchList }) {
   async function handleClick() {
     if (isOnWatchList(movie.id, watchList)) {
-      removeFromWatchList(movie);
+      await removeFromWatchList(movie.id);
     } else {
-      add2WatchList(movie.id, movie.title, movie.poster_path, movie.overview);
+      await add2WatchList(movie.id, movie.title, movie.poster_path, movie.overview);
       console.log(movie.id);
       console.log('test1');
     }
