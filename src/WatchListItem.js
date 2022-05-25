@@ -1,10 +1,10 @@
 import React from 'react';
 import { removeFromWatchList } from './services/supabase-utils';
 
-export default function WatchListItem(movie, refreshWatchList) {
+export default function WatchListItem(movie) {
   async function handleClick() {
-    await removeFromWatchList(movie.movie.id);
-    await refreshWatchList();
+    await removeFromWatchList(movie.movie.api_id);
+    await movie.refreshWatchList();
   }
 
   return (

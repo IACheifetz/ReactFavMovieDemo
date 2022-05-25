@@ -33,7 +33,6 @@ export async function add2WatchList(id, title, poster_path, overview) {
     .from('FavMovies')
     .insert([{ api_id: id, title, poster_path, overview }])
     .single();
-
   return data;
 }
 
